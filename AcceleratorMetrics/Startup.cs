@@ -38,7 +38,7 @@ namespace AcceleratorMetrics
             {
                 services.AddDbContext<MetricsContext>(options => options.UseInMemoryDatabase("metrics"));
             }
-            
+
             // Automatically perform database migration
             //TODO: decide on next line.
             //services.BuildServiceProvider().GetService<MetricsContext>().Database.Migrate();
@@ -54,6 +54,16 @@ namespace AcceleratorMetrics
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                app.UseExceptionHandler("/error");
+            }
+            else
+            {
+                //app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/error");
+            }
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

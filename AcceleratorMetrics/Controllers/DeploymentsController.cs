@@ -45,7 +45,14 @@ namespace AcceleratorMetrics.Controllers
             }
 
             context.Deployments.Add(deployment);
-            context.SaveChanges();
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (ArgumentException ae)
+            {
+                //TODO: Error handling
+            }
 
             return CreatedAtRoute("GetDeployment", new { id = deployment.ID }, deployment);
         }
