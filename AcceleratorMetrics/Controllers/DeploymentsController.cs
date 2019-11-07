@@ -21,8 +21,8 @@ namespace AcceleratorMetrics.Controllers
         [HttpGet]
         public IEnumerable<Deployment> Get()
         {
-            //return context.Deployments.ToList();
-            return new string[] { "Deployment1", "Deployment2" };
+            return context.Deployments.ToList();
+            //return new string[] { "Deployment1", "Deployment2" };
         }
 
         // GET <controller>/5
