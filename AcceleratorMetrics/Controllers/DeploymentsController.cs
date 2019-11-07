@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AcceleratorMetrics.Controllers
 {
+    [ApiController]
     [Route("[controller]")]
     public class DeploymentsController : Controller
     {
@@ -26,16 +27,27 @@ namespace AcceleratorMetrics.Controllers
         }
 
         // GET <controller>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetDeployment")]
         public string Get(int id)
         {
             return "value";
         }
 
         // POST <controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpPost("Deployment")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult Post([FromBody]Deployment deployment)
         {
+            if (deployment == null)
+            {
+                return BadRequest();
+            }
+
+            context.Deployments.Add(deployment);
+            context.SaveChanges();
+
+            return CreatedAtRoute("GetDeployment", new { id = deployment.ID }, deployment);
         }
 
         // PUT <controller>/5

@@ -38,8 +38,9 @@ namespace AcceleratorMetrics
             {
                 services.AddDbContext<MetricsContext>(options => options.UseInMemoryDatabase("metrics"));
             }
+            
             // Automatically perform database migration
-
+            //TODO: decide on next line.
             //services.BuildServiceProvider().GetService<MetricsContext>().Database.Migrate();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
