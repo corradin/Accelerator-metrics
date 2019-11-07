@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AcceleratorMetrics.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,10 +12,16 @@ namespace AcceleratorMetrics.Controllers
     [Route("[controller]")]
     public class DeploymentsController : Controller
     {
+        private readonly MetricsContext context;
+        public DeploymentsController(MetricsContext context)
+        {
+            this.context = context;
+        }
         // GET: <controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Deployment> Get()
         {
+            //return context.Deployments.ToList();
             return new string[] { "Deployment1", "Deployment2" };
         }
 
