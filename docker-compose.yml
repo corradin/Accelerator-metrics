@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  acceleratormetrics:
+    image: ${DOCKER_REGISTRY-}acceleratormetrics
+    build:
+      context: .
+      dockerfile: AcceleratorMetrics/Dockerfile
+    depends_on:
+      - database
+  database:
+    image: ${DOCKER_REGISTRY-}acceleratormetricsdatabase
+    build:
+      context: .
+      dockerfile: AcceleratorMetrics/database/Dockerfile
+    ports:
+      - "1433:1433"

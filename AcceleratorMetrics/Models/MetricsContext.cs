@@ -11,6 +11,6 @@ namespace AcceleratorMetrics.Models
         public MetricsContext(DbContextOptions<MetricsContext> options) : base(options)
         { }
 
-        public DbSet<Deployment> Deployments { get; set; }
+        public DbSet<Metric> Metrics { get; set; }
     }
 }

@@ -36,12 +36,9 @@ namespace AcceleratorMetrics
             }
             else
             {
-                services.AddDbContext<MetricsContext>(options => options.UseInMemoryDatabase("metrics"));
+                services.AddDbContext<MetricsContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DockerDb")));
             }
-
-            // Automatically perform database migration
-            //TODO: decide on next line.
-            //services.BuildServiceProvider().GetService<MetricsContext>().Database.Migrate();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -60,8 +57,7 @@ namespace AcceleratorMetrics
             }
             else
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseExceptionHandler("/error");
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseSwagger();

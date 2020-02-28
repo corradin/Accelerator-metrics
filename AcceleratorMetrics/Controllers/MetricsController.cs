@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AcceleratorMetrics.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,40 +12,39 @@ namespace AcceleratorMetrics.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DeploymentsController : Controller
+    public class MetricsController : Controller
     {
         private readonly MetricsContext context;
-        public DeploymentsController(MetricsContext context)
+        public MetricsController(MetricsContext context)
         {
             this.context = context;
         }
         // GET: <controller>
         [HttpGet]
-        public IEnumerable<Deployment> Get()
+        public IEnumerable<Metric> Get()
         {
-            return context.Deployments.ToList();
-            //return new string[] { "Deployment1", "Deployment2" };
+            return context.Metrics.ToList();
         }
 
         // GET <controller>/5
-        [HttpGet("{id}", Name = "GetDeployment")]
+        [HttpGet("{id}", Name = "GetMetric")]
         public string Get(int id)
         {
             return "value";
         }
 
         // POST <controller>
-        [HttpPost("Deployment")]
+        [HttpPost("Metric")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Post([FromBody]Deployment deployment)
+        public IActionResult Post([FromBody]Metric metric)
         {
-            if (deployment == null)
+            if (metric == null)
             {
                 return BadRequest();
             }
 
-            context.Deployments.Add(deployment);
+            context.Metrics.Add(metric);
             try
             {
                 context.SaveChanges();
@@ -54,7 +54,7 @@ namespace AcceleratorMetrics.Controllers
                 //TODO: Error handling
             }
 
-            return CreatedAtRoute("GetDeployment", new { id = deployment.ID }, deployment);
+            return CreatedAtRoute("GetMetric", new { id = metric.ID }, metric);
         }
 
         // PUT <controller>/5

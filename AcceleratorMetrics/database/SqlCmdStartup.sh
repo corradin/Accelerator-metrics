@@ -1,0 +1,2 @@
+#wait for the SQL Server to come up and run the setup script to create the DB and the schema in the DB
+sleep 20s && /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P Passw0rd -d master -i /AcceleratorMetrics/database/SqlCmdScript.sql

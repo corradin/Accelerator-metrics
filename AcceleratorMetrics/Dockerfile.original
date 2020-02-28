@@ -9,12 +9,12 @@ COPY ["AcceleratorMetrics/AcceleratorMetrics.csproj", "AcceleratorMetrics/"]
 RUN dotnet restore "AcceleratorMetrics/AcceleratorMetrics.csproj"
 COPY . .
 WORKDIR "/src/AcceleratorMetrics"
-RUN dotnet build "AcceleratorMetrics.csproj" -c Release -o /app/build
+RUN dotnet build "AcceleratorMetrics.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "AcceleratorMetrics.csproj" -c Release -o /app/publish
+RUN dotnet publish "AcceleratorMetrics.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "AcceleratorMetrics.dll"]

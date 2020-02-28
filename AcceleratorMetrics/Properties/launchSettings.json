@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "/deployments",
+      "launchUrl": "/metrics",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "AcceleratorMetrics": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "deployments",
+      "launchUrl": "metrics",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -29,7 +29,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/deployments",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/metrics",
       "httpPort": 64567,
       "useSSL": true,
       "sslPort": 44346
