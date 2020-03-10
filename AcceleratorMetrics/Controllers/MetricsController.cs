@@ -25,9 +25,9 @@ namespace AcceleratorMetrics.Controllers
         // GET: <controller>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IEnumerable<Metric> Get()
+        public ActionResult<IEnumerable<Metric>> Get()
         {
-            return _context.Metrics.ToList();
+            return Ok(_context.Metrics.ToList());
         }
 
         // GET <controller>/5
