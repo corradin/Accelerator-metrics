@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AcceleratorMetrics.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,18 +14,22 @@ namespace AcceleratorMetrics.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MetricsController : Controller
+    public class MetricsController : ControllerBase
     {
-        private readonly MetricsContext context;
-        public MetricsController(MetricsContext context)
+        private readonly MetricsContext _context;
+        private readonly ILogger _logger;
+
+        public MetricsController(MetricsContext context, ILogger<MetricsController> logger)
         {
-            this.context = context;
+            _context = context;
+            _logger = logger;
         }
         // GET: <controller>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<Metric> Get()
         {
-            return context.Metrics.ToList();
+            return _context.Metrics.ToList();
         }
 
         // GET <controller>/5
@@ -35,8 +41,8 @@ namespace AcceleratorMetrics.Controllers
 
         // POST <controller>
         [HttpPost("Metric")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody]Metric metric)
         {
             if (metric == null)
@@ -44,14 +50,14 @@ namespace AcceleratorMetrics.Controllers
                 return BadRequest();
             }
 
-            context.Metrics.Add(metric);
+            _context.Metrics.Add(metric);
             try
             {
-                context.SaveChanges();
+                _context.SaveChanges();
             }
             catch (ArgumentException ae)
             {
-                //TODO: Error handling
+                _logger.LogError(ae, $"Argument exception occurred while creating event with artifact id {metric?.ArtifactId} and project id {metric?.ProjectId}");
             }
 
             return CreatedAtRoute("GetMetric", new { id = metric.ID }, metric);
